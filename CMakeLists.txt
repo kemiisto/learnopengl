@@ -18,10 +18,9 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
-include_directories(glad/include)
-add_library(glad glad/src/glad.c)
-
-link_libraries(fmt::fmt spdlog::spdlog glfw glad)
+add_subdirectory(tinygl)
+include_directories(src tinygl/include)
+link_libraries(fmt::fmt spdlog::spdlog glfw glad tinygl)
 
 MACRO(SUBDIRLIST result curdir)
     FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
