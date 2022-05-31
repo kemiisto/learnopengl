@@ -20,7 +20,7 @@ find_package(spdlog CONFIG REQUIRED)
 
 add_subdirectory(tinygl)
 include_directories(src tinygl/include)
-link_libraries(fmt::fmt spdlog::spdlog glfw glad tinygl)
+link_libraries(fmt::fmt spdlog::spdlog tinygl)
 
 MACRO(SUBDIRLIST result curdir)
     FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -43,6 +43,11 @@ function(create_project_from_sources chapter demo)
     )
     set(NAME "${demo}")
     add_executable(${NAME} ${SOURCE})
+    set_target_properties(${NAME}
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${NAME}"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${NAME}"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${NAME}")
     target_compile_definitions(${NAME} PRIVATE NAME="${NAME}")
     # copy shader files to build directory
     file(GLOB SHADERS
