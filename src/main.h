@@ -8,6 +8,7 @@ int main()                                       \
         Window window(800, 600, NAME);           \
         window.run();                            \
     } catch (const std::exception& e) {          \
+        glfwTerminate();                         \
         std::cerr << e.what() << std::endl;      \
         return EXIT_FAILURE;                     \
     }                                            \
