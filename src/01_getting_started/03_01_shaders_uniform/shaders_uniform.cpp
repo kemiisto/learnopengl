@@ -17,8 +17,8 @@ private:
 
 void Window::init()
 {
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Vertex, "hello_triangle.vert");
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Fragment, "hello_triangle.frag");
+    program.addShaderFromSourceFile(tinygl::Shader::Type::Vertex, "shaders_uniform.vert");
+    program.addShaderFromSourceFile(tinygl::Shader::Type::Fragment, "shaders_uniform.frag");
     program.link();
 
     const GLfloat vertices[] = {
@@ -32,15 +32,8 @@ void Window::init()
 
     vao.bind();
     vbo.bind();
-    // Which VBO a vertex attribute takes its data from is determined
-    // by the VBO currently bound to GL_ARRAY_BUFFER when calling glVertexAttribPointer().
-    // So, first we bound the needed VBO (see above) and then call glVertexAttribPointer().
     vao.setAttributeArray(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-    // Since we know that the array is tightly packed (there is no space between the next vertex attribute value)
-    // we could've also specified the stride as 0 to let OpenGL determine the stride.
-    // vao.setAttributeArray(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
     vao.enableAttributeArray(0);
-    //
     vbo.unbind();
     vao.unbind();
 }
@@ -55,7 +48,14 @@ void Window::processInput()
 void Window::draw() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
     program.use();
+
+    auto time = tinygl::getTime();
+    auto green = std::sin(time) / 2.0f + 0.5f;
+    auto colorLocation = program.uniformLocation("color");
+    program.setUniformValue(colorLocation, 0.0f, green, 0.0f, 1.0f);
+
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
