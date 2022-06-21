@@ -5,10 +5,11 @@
 int main()                                       \
 {                                                \
     try {                                        \
+        tinygl::init(3, 3);                      \
         Window window(800, 600, NAME);           \
         window.run();                            \
     } catch (const std::exception& e) {          \
-        glfwTerminate();                         \
+        tinygl::terminate();                     \
         std::cerr << e.what() << std::endl;      \
         return EXIT_FAILURE;                     \
     }                                            \
