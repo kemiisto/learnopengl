@@ -1,12 +1,8 @@
 #include "main.h"
+#include "resource.h"
 #include <tinygl/tinygl.h>
 #include <fmt/format.h>
 #include <iostream>
-
-std::string resourcePath(const std::string& resource)
-{
-    return fmt::format("../../{}", resource);
-}
 
 class Window final : public tinygl::Window
 {
@@ -22,7 +18,7 @@ private:
     tinygl::VertexArrayObject vao;
     tinygl::Texture texture{
         tinygl::Texture::Target::Target2D,
-        resourcePath("resources/textures/container.jpg"),
+        resourcePath("textures/container.jpg"),
         GL_RGB, GL_RGB, true, 0
     };
 };
