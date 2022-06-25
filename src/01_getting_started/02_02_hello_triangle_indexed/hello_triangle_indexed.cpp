@@ -19,7 +19,7 @@ private:
 
 void Window::init()
 {
-    setKeyCallback([this](tinygl::Key key, int scancode, tinygl::KeyAction action, tinygl::Modifier mods) {
+    setKeyCallback([this](tinygl::Key key, [[maybe_unused]] int scancode, tinygl::KeyAction action, [[maybe_unused]] tinygl::Modifier mods) {
         if (key == tinygl::Key::W && action == tinygl::KeyAction::Press) {
             wireframe = !wireframe;
         }
