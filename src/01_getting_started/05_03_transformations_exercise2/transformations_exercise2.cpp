@@ -1,9 +1,6 @@
 #include "main.h"
 #include "resource.h"
 #include <tinygl/tinygl.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <fmt/format.h>
 #include <iostream>
 
@@ -87,19 +84,20 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    glm::mat4 transformation = glm::mat4(1.0f);
-    transformation = glm::translate(transformation, glm::vec3(0.5f, -0.5f, 1.0f));
-    transformation = glm::rotate(transformation, tinygl::getTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+    auto transformation = tinygl::Mat4{};
+    transformation.translate({0.5f, -0.5f, 1.0f});
+//    transformation.rotateZ(tinygl::radiansToDegrees(tinygl::getTime()));
+    transformation.rotate(tinygl::radiansToDegrees(tinygl::getTime()), {0.0f, 0.0f, 1.0f});
 
     program.use();
     program.setUniformValue("transformation", transformation);
     vao.bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-    transformation = glm::mat4(1.0f);
-    transformation = glm::translate(transformation, glm::vec3(-0.5f, 0.5f, 1.0f));
+    transformation.setToIdentity();
+    transformation.translate({-0.5f, 0.5f, 1.0f});
     auto scale = std::sin(tinygl::getTime());
-    transformation = glm::scale(transformation, glm::vec3(scale));
+    transformation.scale(scale);
     program.setUniformValue("transformation", transformation);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

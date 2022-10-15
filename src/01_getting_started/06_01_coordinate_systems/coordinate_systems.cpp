@@ -1,9 +1,6 @@
 #include "main.h"
 #include "resource.h"
 #include <tinygl/tinygl.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 class Window final : public tinygl::Window
@@ -86,13 +83,14 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    auto model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    auto model = tinygl::Mat4{};
+    model.rotate(-55.0f, {1.0f, 0.0f, 0.0f});
 
-    auto view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    auto view = tinygl::Mat4{};
+    view.translate({0.0f, 0.0f, -3.0f});
 
-    auto projection = glm::perspective(glm::radians(45.0f), 800.0f/600.0f, 0.1f, 100.0f);
+    auto projection = tinygl::Mat4{};
+    projection.perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
 
     program.use();
     program.setUniformValue("model", model);

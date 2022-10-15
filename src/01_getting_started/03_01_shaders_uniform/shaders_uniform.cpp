@@ -1,6 +1,7 @@
 #include "main.h"
 #include <tinygl/tinygl.h>
 #include <iostream>
+#include <cmath>
 
 class Window final : public tinygl::Window
 {

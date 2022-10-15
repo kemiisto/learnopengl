@@ -1,9 +1,6 @@
 #include "main.h"
 #include "resource.h"
 #include <tinygl/tinygl.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 class Window final : public tinygl::Window
@@ -114,33 +111,34 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    const glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
+    const tinygl::Vec3 cubePositions[] = {
+        {0.0f, 0.0f, 0.0f},
+        {2.0f, 5.0f, -15.0f},
+        {-1.5f, -2.2f, -2.5f},
+        {-3.8f, -2.0f, -12.3f},
+        {2.4f, -0.4f, -3.5f},
+        {-1.7f, 3.0f, -7.5f},
+        {1.3f, -2.0f, -2.5f},
+        {1.5f, 2.0f, -2.5f},
+        {1.5f, 0.2f, -1.5f},
+        {-1.3f, 1.0f, -1.5f}
     };
 
     program.use();
     vao.bind();
 
-    auto view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    auto view = tinygl::Mat4{};
+    view.translate({0.0f, 0.0f, -3.0f});
     program.setUniformValue("view", view);
 
-    auto projection = glm::perspective(glm::radians(45.0f), 800.0f/600.0f, 0.1f, 100.0f);
+    auto projection = tinygl::Mat4{};
+    projection.perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
     program.setUniformValue("projection", projection);
 
     for (int i = 0; i < 10; ++i) {
-        auto model = glm::mat4(1.0f);
-        model = glm::translate(model, cubePositions[i]);
-        model = glm::rotate(model, glm::radians(20.0f * i), glm::vec3(1.0f, 0.3f, 0.5f));
+        auto model = tinygl::Mat4{};
+        model.translate(cubePositions[i]);
+        model.rotate(20.0f * i, {1.0f, 0.3f, 0.5f});
         program.setUniformValue("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
