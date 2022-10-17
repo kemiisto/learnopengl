@@ -84,13 +84,12 @@ void Window::draw() {
     texture1.bind();
 
     auto model = tinygl::Mat4{};
-    model.rotate(-55.0f, {1.0f, 0.0f, 0.0f});
+    model.postRotate(-55.0f, {1.0f, 0.0f, 0.0f});
 
     auto view = tinygl::Mat4{};
-    view.translate({0.0f, 0.0f, -3.0f});
+    view.postTranslate({0.0f, 0.0f, -3.0f});
 
-    auto projection = tinygl::Mat4{};
-    projection.perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
+    auto projection = tinygl::Mat4::perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
 
     program.use();
     program.setUniformValue("model", model);

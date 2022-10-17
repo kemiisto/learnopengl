@@ -85,8 +85,8 @@ void Window::draw() {
     texture1.bind();
 
     auto transformation = tinygl::Mat4{};
-    transformation.rotate(tinygl::getTime() * 50.0f, {0.0f, 0.0f, 1.0f});
-    transformation.translate({0.5f, -0.5f, 1.0f});
+    transformation.postRotate(tinygl::getTime() * 50.0f, {0.0f, 0.0f, 1.0f});
+    transformation.postTranslate({0.5f, -0.5f, 1.0f});
 
     program.use();
     program.setUniformValue("transformation", transformation);

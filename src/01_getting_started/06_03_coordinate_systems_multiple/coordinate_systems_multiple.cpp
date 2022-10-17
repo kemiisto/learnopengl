@@ -128,17 +128,16 @@ void Window::draw() {
     vao.bind();
 
     auto view = tinygl::Mat4{};
-    view.translate({0.0f, 0.0f, -3.0f});
+    view.postTranslate({0.0f, 0.0f, -3.0f});
     program.setUniformValue("view", view);
 
-    auto projection = tinygl::Mat4{};
-    projection.perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
+    auto projection = tinygl::Mat4::perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
     program.setUniformValue("projection", projection);
 
     for (int i = 0; i < 10; ++i) {
         auto model = tinygl::Mat4{};
-        model.translate(cubePositions[i]);
-        model.rotate(20.0f * i, {1.0f, 0.3f, 0.5f});
+        model.postTranslate(cubePositions[i]);
+        model.postRotate(20.0f * i, {1.0f, 0.3f, 0.5f});
         program.setUniformValue("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
