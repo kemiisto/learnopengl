@@ -43,7 +43,7 @@ void Window::init()
 
     for (int i = 0; i < 2; ++i) {
         vbos[i].bind();
-        vbos[i].fill(vertices[i], sizeof(vertices[i]));
+        vbos[i].create(sizeof(vertices[i]), vertices[i]);
         vbos[i].unbind();
 
         vaos[i].bind();
@@ -57,7 +57,7 @@ void Window::init()
 
 void Window::processInput()
 {
-    if (getKey(tinygl::Key::Escape) == tinygl::KeyState::Press) {
+    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
         setShouldClose(true);
     }
 }

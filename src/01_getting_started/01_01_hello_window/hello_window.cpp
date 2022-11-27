@@ -11,7 +11,7 @@ public:
 
 void Window::processInput()
 {
-    if (getKey(tinygl::Key::Escape) == tinygl::KeyState::Press) {
+    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
         setShouldClose(true);
     }
 }

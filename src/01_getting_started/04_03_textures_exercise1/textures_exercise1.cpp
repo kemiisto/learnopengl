@@ -46,7 +46,7 @@ void Window::init()
         -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
     };
     vbo.bind();
-    vbo.fill(vertices, sizeof(vertices));
+    vbo.create(sizeof(vertices), vertices);
     vbo.unbind();
 
     const GLuint indices[] = {
@@ -54,7 +54,7 @@ void Window::init()
         1, 2, 3  // second triangle
     };
     ibo.bind();
-    ibo.fill(indices, sizeof(indices));
+    ibo.create(sizeof(indices), indices);
     ibo.unbind();
 
     vao.bind();
@@ -74,7 +74,7 @@ void Window::init()
 
 void Window::processInput()
 {
-    if (getKey(tinygl::Key::Escape) == tinygl::KeyState::Press) {
+    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
         setShouldClose(true);
     }
 }

@@ -80,7 +80,7 @@ void Window::init()
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
     vbo.bind();
-    vbo.fill(vertices, sizeof(vertices));
+    vbo.create(sizeof(vertices), vertices);
     vbo.unbind();
 
     vao.bind();
@@ -99,7 +99,7 @@ void Window::init()
 
 void Window::processInput()
 {
-    if (getKey(tinygl::Key::Escape) == tinygl::KeyState::Press) {
+    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
         setShouldClose(true);
     }
 }
