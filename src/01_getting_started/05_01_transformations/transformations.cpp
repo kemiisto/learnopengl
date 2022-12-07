@@ -86,7 +86,7 @@ void Window::draw() {
 
     auto transformation = tinygl::Mat4{};
     transformation.postTranslate({0.5f, -0.5f, 1.0f});
-    transformation.postRotate(tinygl::radiansToDegrees(tinygl::getTime()), {0.0f, 0.0f, 1.0f});
+    transformation.postRotate(tinygl::radiansToDegrees(tinygl::getTime<float>()), {0.0f, 0.0f, 1.0f});
 
     program.use();
     program.setUniformValue("transformation", transformation);

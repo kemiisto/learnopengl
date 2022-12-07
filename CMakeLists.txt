@@ -20,7 +20,7 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 add_subdirectory(tinygl)
-include_directories(src tinygl/include)
+include_directories(src tinygl/include tinygl/imgui)
 link_libraries(fmt::fmt spdlog::spdlog tinygl)
 if (TARGET glm::glm)
     link_libraries(glm::glm)
@@ -62,8 +62,13 @@ function(create_project_from_sources chapter demo)
         "src/${chapter}/${demo}/*.geom"
     )
     foreach(SHADER ${SHADERS})
-        add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SHADER} $<TARGET_FILE_DIR:${NAME}>)
+        add_custom_command(TARGET ${NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SHADER} $<TARGET_FILE_DIR:${NAME}>)
     endforeach(SHADER)
+    add_custom_command(TARGET ${NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/tinygl/fonts $<TARGET_FILE_DIR:${NAME}>/fonts)
 endfunction()
 
 foreach(CHAPTER ${CHAPTERS})

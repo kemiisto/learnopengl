@@ -52,7 +52,7 @@ void Window::draw() {
 
     program.use();
 
-    auto time = tinygl::getTime();
+    auto time = tinygl::getTime<float>();
     auto green = std::sin(time) / 2.0f + 0.5f;
     auto colorLocation = program.uniformLocation("color");
     program.setUniformValue(colorLocation, 0.0f, green, 0.0f, 1.0f);

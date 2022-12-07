@@ -138,7 +138,7 @@ void Window::draw() {
         auto model = tinygl::Mat4{};
         model.postTranslate(cubePositions[i]);
         if (i % 3 == 0) {
-            model.postRotate(tinygl::getTime() * 50.0f, {1.0f, 0.3f, 0.5f});
+            model.postRotate(tinygl::getTime<float>() * 50.0f, {1.0f, 0.3f, 0.5f});
         } else {
             model.postRotate(20.0f * i, {1.0f, 0.3f, 0.5f});
         }

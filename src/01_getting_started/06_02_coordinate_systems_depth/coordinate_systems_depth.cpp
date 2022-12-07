@@ -112,7 +112,7 @@ void Window::draw() {
     texture1.bind();
 
     auto model = tinygl::Mat4{};
-    model.postRotate(tinygl::radiansToDegrees(tinygl::getTime()), {0.5f, 1.0f, 0.0f});
+    model.postRotate(tinygl::radiansToDegrees(tinygl::getTime<float>()), {0.5f, 1.0f, 0.0f});
 
     auto view = tinygl::Mat4{};
     view.postTranslate({0.0f, 0.0f, -3.0f});
