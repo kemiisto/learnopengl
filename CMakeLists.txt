@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
 
-if(WIN32 AND MSVC AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(CMAKE_TOOLCHAIN_FILE "c:/Users/$ENV{USERNAME}/Downloads/vcpkg/scripts/buildsystems/vcpkg.cmake")
-endif()
-
 project(learnopengl)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -75,4 +71,5 @@ foreach(CHAPTER ${CHAPTERS})
         message(STATUS "Configuring example ${EXAMPLE}")
         create_project_from_sources(${CHAPTER} ${EXAMPLE})
     endforeach(EXAMPLE)
+    file(COPY resources DESTINATION .)
 endforeach(CHAPTER)

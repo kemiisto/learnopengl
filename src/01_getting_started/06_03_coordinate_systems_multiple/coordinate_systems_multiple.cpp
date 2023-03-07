@@ -127,7 +127,7 @@ void Window::draw() {
     program.use();
     vao.bind();
 
-    auto view = tinygl::Mat4{};
+    auto view = tinygl::Mat4{tinygl::MatInit::Identity};
     view.postTranslate({0.0f, 0.0f, -3.0f});
     program.setUniformValue("view", view);
 
@@ -135,7 +135,7 @@ void Window::draw() {
     program.setUniformValue("projection", projection);
 
     for (int i = 0; i < 10; ++i) {
-        auto model = tinygl::Mat4{};
+        auto model = tinygl::Mat4{tinygl::MatInit::Identity};
         model.postTranslate(cubePositions[i]);
         model.postRotate(20.0f * i, {1.0f, 0.3f, 0.5f});
         program.setUniformValue("model", model);

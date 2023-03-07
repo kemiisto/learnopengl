@@ -84,7 +84,7 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    auto transformation = tinygl::Mat4{};
+    auto transformation = tinygl::Mat4{tinygl::MatInit::Identity};
     transformation.postRotate(tinygl::getTime<float>() * 50.0f, {0.0f, 0.0f, 1.0f});
     transformation.postTranslate({0.5f, -0.5f, 1.0f});
 
