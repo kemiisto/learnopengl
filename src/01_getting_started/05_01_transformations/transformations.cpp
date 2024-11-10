@@ -1,5 +1,6 @@
 #include "main.h"
 #include "resource.h"
+#include <tinyla/geom.hpp>
 #include <tinygl/tinygl.h>
 #include <fmt/format.h>
 #include <iostream>
@@ -84,9 +85,10 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    auto transformation = tinygl::Mat4{tinygl::MatInit::Identity};
-    transformation.postTranslate({0.5f, -0.5f, 1.0f});
-    transformation.postRotate(tinygl::radiansToDegrees(tinygl::getTime<float>()), {0.0f, 0.0f, 1.0f});
+    auto transformation = tinyla::mat4f{tinyla::mat_init::identity};
+    tinyla::geom::post_translate(transformation, {0.5f, -0.5f, 1.0f});
+    tinyla::geom::post_rotate(transformation,
+        tinyla::angle<float>::from_radians(tinygl::getTime<float>()), {0.0f, 0.0f, 1.0f});
 
     program.use();
     program.setUniformValue("transformation", transformation);

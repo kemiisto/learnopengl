@@ -1,7 +1,10 @@
 #include "main.h"
 #include "resource.h"
+#include <tinyla/geom.hpp>
 #include <tinygl/tinygl.h>
 #include <iostream>
+
+using namespace tinyla::literals;
 
 class Window final : public tinygl::Window
 {
@@ -83,13 +86,15 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    auto model = tinygl::Mat4{tinygl::MatInit::Identity};
-    model.postRotate(-55.0f, {1.0f, 0.0f, 0.0f});
+    auto model = tinyla::mat4f{tinyla::mat_init::identity};
+    tinyla::geom::post_rotate(model, -55.0_degf, {1.0f, 0.0f, 0.0f});
 
-    auto view = tinygl::Mat4{tinygl::MatInit::Identity};
-    view.postTranslate({0.0f, 0.0f, -3.0f});
+    auto view = tinyla::mat4f{tinyla::mat_init::identity};
+    tinyla::geom::post_translate(view, {0.0f, 0.0f, -3.0f});
 
-    auto projection = tinygl::Mat4::perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
+    const auto frustum = tinyla::geom::frustum{45.0_degf, 800.0f/600.0f, 0.1f, 100.0f};
+    auto projection = tinyla::geom::perspective(frustum,
+        tinyla::geom::handedness::right, tinyla::geom::clip_volume::minus_one_to_one);
 
     program.use();
     program.setUniformValue("model", model);

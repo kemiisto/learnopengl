@@ -1,7 +1,10 @@
 #include "main.h"
 #include "resource.h"
+#include <tinyla/geom.hpp>
 #include <tinygl/tinygl.h>
 #include <iostream>
+
+using namespace tinyla::literals;
 
 class Window final : public tinygl::Window
 {
@@ -111,7 +114,7 @@ void Window::draw() {
     texture0.bind();
     texture1.bind();
 
-    const tinygl::Vec3 cubePositions[] = {
+    const tinyla::vec3f cubePositions[] = {
         {0.0f, 0.0f, 0.0f},
         {2.0f, 5.0f, -15.0f},
         {-1.5f, -2.2f, -2.5f},
@@ -127,17 +130,19 @@ void Window::draw() {
     program.use();
     vao.bind();
 
-    auto view = tinygl::Mat4{tinygl::MatInit::Identity};
-    view.postTranslate({0.0f, 0.0f, -3.0f});
+    auto view = tinyla::mat4f{tinyla::mat_init::identity};
+    tinyla::geom::post_translate(view, {0.0f, 0.0f, -3.0f});
     program.setUniformValue("view", view);
 
-    auto projection = tinygl::Mat4::perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
+    const auto frustum = tinyla::geom::frustum{45.0_degf, 800.0f/600.0f, 0.1f, 100.0f};
+    auto projection = tinyla::geom::perspective(frustum,
+        tinyla::geom::handedness::right, tinyla::geom::clip_volume::minus_one_to_one);
     program.setUniformValue("projection", projection);
 
     for (int i = 0; i < 10; ++i) {
-        auto model = tinygl::Mat4{tinygl::MatInit::Identity};
-        model.postTranslate(cubePositions[i]);
-        model.postRotate(20.0f * i, {1.0f, 0.3f, 0.5f});
+        auto model = tinyla::mat4f{tinyla::mat_init::identity};
+        tinyla::geom::post_translate(model, cubePositions[i]);
+        tinyla::geom::post_rotate(model, tinyla::angle<float>::from_degrees(20.0f * i), {1.0f, 0.3f, 0.5f});
         program.setUniformValue("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
