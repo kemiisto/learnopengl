@@ -3,26 +3,26 @@
 #include <iostream>
 #include <cmath>
 
-class Window final : public tinygl::Window
+class window final : public tinygl::window
 {
 public:
-    using tinygl::Window::Window;
+    using tinygl::window::window;
     void init() override;
-    void processInput() override;
+    void process_input() override;
     void draw() override;
 private:
-    tinygl::ShaderProgram program;
-    tinygl::Buffer vbo{tinygl::Buffer::Type::VertexBuffer, tinygl::Buffer::UsagePattern::StaticDraw};
-    tinygl::VertexArrayObject vao;
+    tinygl::shader_program program;
+    tinygl::buffer vbo{tinygl::buffer::type::vertex_buffer, tinygl::buffer::usage_pattern::static_draw};
+    tinygl::vertex_array_object vao;
 };
 
-void Window::init()
+void window::init()
 {
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Vertex, "shaders_uniform.vert");
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Fragment, "shaders_uniform.frag");
+    program.add_shader_from_source_file(tinygl::shader::type::vertex, "shaders_uniform.vert");
+    program.add_shader_from_source_file(tinygl::shader::type::fragment, "shaders_uniform.frag");
     program.link();
 
-    const GLfloat vertices[] = {
+    constexpr GLfloat vertices[] = {
         -0.5f, -0.5f, 0.0f, // left
          0.5f, -0.5f, 0.0f, // right
          0.0f,  0.5f, 0.0f  // top
@@ -33,29 +33,29 @@ void Window::init()
 
     vao.bind();
     vbo.bind();
-    vao.setAttributeArray(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-    vao.enableAttributeArray(0);
+    vao.set_attribute_array(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    vao.enable_attribute_array(0);
     vbo.unbind();
     vao.unbind();
 }
 
-void Window::processInput()
+void window::process_input()
 {
-    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
-        setShouldClose(true);
+    if (get_key(tinygl::keyboard::key::escape) == tinygl::keyboard::key_state::press) {
+        set_should_close(true);
     }
 }
 
-void Window::draw() {
+void window::draw() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     program.use();
 
-    auto time = tinygl::getTime<float>();
+    auto time = tinygl::get_time<float>();
     auto green = std::sin(time) / 2.0f + 0.5f;
-    auto colorLocation = program.uniformLocation("color");
-    program.setUniformValue(colorLocation, 0.0f, green, 0.0f, 1.0f);
+    auto colorLocation = program.uniform_location("color");
+    program.set_uniform_value(colorLocation, 0.0f, green, 0.0f, 1.0f);
 
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);

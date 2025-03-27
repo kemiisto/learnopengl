@@ -3,32 +3,32 @@
 #include <array>
 #include <iostream>
 
-class Window final : public tinygl::Window
+class window final : public tinygl::window
 {
 public:
-    using tinygl::Window::Window;
+    using tinygl::window::window;
     void init() override;
-    void processInput() override;
+    void process_input() override;
     void draw() override;
 private:
-    tinygl::ShaderProgram program;
-    std::array<tinygl::Buffer, 2> vbos {
-        tinygl::Buffer{tinygl::Buffer::Type::VertexBuffer, tinygl::Buffer::UsagePattern::StaticDraw},
-        tinygl::Buffer{tinygl::Buffer::Type::VertexBuffer, tinygl::Buffer::UsagePattern::StaticDraw}
+    tinygl::shader_program program;
+    std::array<tinygl::buffer, 2> vbos {
+        tinygl::buffer{tinygl::buffer::type::vertex_buffer, tinygl::buffer::usage_pattern::static_draw},
+        tinygl::buffer{tinygl::buffer::type::vertex_buffer, tinygl::buffer::usage_pattern::static_draw}
     };
-    std::array<tinygl::VertexArrayObject, 2> vaos {
-        tinygl::VertexArrayObject{},
-        tinygl::VertexArrayObject{}
+    std::array<tinygl::vertex_array_object, 2> vaos {
+        tinygl::vertex_array_object{},
+        tinygl::vertex_array_object{}
     };
 };
 
-void Window::init()
+void window::init()
 {
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Vertex, "hello_triangle_exercise2.vert");
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Fragment, "hello_triangle_exercise2.frag");
+    program.add_shader_from_source_file(tinygl::shader::type::vertex, "hello_triangle_exercise2.vert");
+    program.add_shader_from_source_file(tinygl::shader::type::fragment, "hello_triangle_exercise2.frag");
     program.link();
 
-    const GLfloat vertices[][9] = {
+    constexpr GLfloat vertices[][9] = {
         {
             -0.9f, -0.5f, 0.0f,  // left
             -0.0f, -0.5f, 0.0f,  // right
@@ -48,21 +48,21 @@ void Window::init()
 
         vaos[i].bind();
         vbos[i].bind();
-        vaos[i].setAttributeArray(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-        vaos[i].enableAttributeArray(0);
+        vaos[i].set_attribute_array(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+        vaos[i].enable_attribute_array(0);
         vbos[i].unbind();
         vaos[i].unbind();
     }
 }
 
-void Window::processInput()
+void window::process_input()
 {
-    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
-        setShouldClose(true);
+    if (get_key(tinygl::keyboard::key::escape) == tinygl::keyboard::key_state::press) {
+        set_should_close(true);
     }
 }
 
-void Window::draw() {
+void window::draw() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     program.use();

@@ -4,45 +4,45 @@
 #include <fmt/format.h>
 #include <iostream>
 
-class Window final : public tinygl::Window
+class window final : public tinygl::window
 {
 public:
-    using tinygl::Window::Window;
+    using tinygl::window::window;
     void init() override;
-    void processInput() override;
+    void process_input() override;
     void draw() override;
 private:
-    tinygl::ShaderProgram program;
-    tinygl::Buffer vbo{tinygl::Buffer::Type::VertexBuffer, tinygl::Buffer::UsagePattern::StaticDraw};
-    tinygl::Buffer ibo{tinygl::Buffer::Type::IndexBuffer, tinygl::Buffer::UsagePattern::StaticDraw};
-    tinygl::VertexArrayObject vao;
-    tinygl::Texture texture0{
-        tinygl::Texture::Target::Target2D,
+    tinygl::shader_program program;
+    tinygl::buffer vbo{tinygl::buffer::type::vertex_buffer, tinygl::buffer::usage_pattern::static_draw};
+    tinygl::buffer ibo{tinygl::buffer::type::index_buffer, tinygl::buffer::usage_pattern::static_draw};
+    tinygl::vertex_array_object vao;
+    tinygl::texture texture0{
+        tinygl::texture::target::target_2d,
         resourcePath("textures/container.jpg"),
         GL_RGB, GL_RGB, true, 0
     };
-    tinygl::Texture texture1{
-        tinygl::Texture::Target::Target2D,
+    tinygl::texture texture1{
+        tinygl::texture::target::target_2d,
         resourcePath("textures/awesomeface.png"),
         GL_RGBA, GL_RGBA, true, 1
     };
 };
 
-void Window::init()
+void window::init()
 {
     texture0.bind();
-    texture0.setWrapMode(tinygl::Texture::WrapMode::ClampToEdge);
+    texture0.set_wrap_mode(tinygl::texture::wrap_mode::clamp_to_edge);
     texture0.unbind();
 
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Vertex, "textures_exercise2.vert");
-    program.addShaderFromSourceFile(tinygl::Shader::Type::Fragment, "textures_exercise2.frag");
+    program.add_shader_from_source_file(tinygl::shader::type::vertex, "textures_exercise2.vert");
+    program.add_shader_from_source_file(tinygl::shader::type::fragment, "textures_exercise2.frag");
     program.link();
 
     program.use();
-    program.setUniformValue("texture0", 0);
-    program.setUniformValue("texture1", 1);
+    program.set_uniform_value("texture0", 0);
+    program.set_uniform_value("texture1", 1);
 
-    const GLfloat vertices[] = {
+    constexpr GLfloat vertices[] = {
         // positions          // colors           // texture coords
          0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f, // top right
          0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, 0.0f, // bottom right
@@ -64,26 +64,26 @@ void Window::init()
     vao.bind();
 
     vbo.bind();
-    vao.setAttributeArray(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
-    vao.enableAttributeArray(0);
-    vao.setAttributeArray(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 3 * sizeof(GLfloat));
-    vao.enableAttributeArray(1);
-    vao.setAttributeArray(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 6 * sizeof(GLfloat));
-    vao.enableAttributeArray(2);
+    vao.set_attribute_array(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
+    vao.enable_attribute_array(0);
+    vao.set_attribute_array(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 3 * sizeof(GLfloat));
+    vao.enable_attribute_array(1);
+    vao.set_attribute_array(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 6 * sizeof(GLfloat));
+    vao.enable_attribute_array(2);
     vbo.unbind();
 
     ibo.bind();
     vao.unbind();
 }
 
-void Window::processInput()
+void window::process_input()
 {
-    if (getKey(tinygl::keyboard::Key::Escape) == tinygl::keyboard::KeyState::Press) {
-        setShouldClose(true);
+    if (get_key(tinygl::keyboard::key::escape) == tinygl::keyboard::key_state::press) {
+        set_should_close(true);
     }
 }
 
-void Window::draw() {
+void window::draw() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
